@@ -42,7 +42,7 @@ class LoginPage extends StatelessWidget {
                    color: Colors.black,
                     size: 125,
                   ),*/
-                  Text('Hola!',
+                  Text('INGRESAR',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
