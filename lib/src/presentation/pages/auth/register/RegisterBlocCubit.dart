@@ -2,9 +2,8 @@ import 'package:ecommerce_cw_flutter/src/presentation/pages/auth/register/Regist
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RegisterBlocCubit extends Cubit <RegisterBlocState> {
-
-  RegisterBlocCubit():super(RegisterInitial());
+class RegisterBlocCubit extends Cubit<RegisterBlocState> {
+  RegisterBlocCubit() : super(RegisterInitial());
 
   final _nameController = BehaviorSubject<String>();
   final _lastnameController = BehaviorSubject<String>();
@@ -21,87 +20,79 @@ class RegisterBlocCubit extends Cubit <RegisterBlocState> {
   Stream<String> get confirmpasswordStream => _confirmpasswordController.stream;
 
   Stream<bool> get validateFrom => Rx.combineLatest6(
-    nameStream,
-    lastnameStream,
-    emailStream,
-    phoneStream,
-    passwordStream,
-    confirmpasswordStream, (a, b, c, d, e, f) => true
-    
-    );
+      nameStream,
+      lastnameStream,
+      emailStream,
+      phoneStream,
+      passwordStream,
+      confirmpasswordStream,
+      (a, b, c, d, e, f) => true);
 
-    void register() {
-      print ('Name: ${_nameController.value}');
-      print ('Lastname: ${_lastnameController.value}');
-      print ('Email: ${_emailController.value}');
-      print ('Phone: ${_phoneController.value}');
-      print ('Password: ${_passwordController.value}');
-      print ('ConfirmPassword: ${_confirmpasswordController.value}');
-    }
-  
+  void register() {
+    print('Name: ${_nameController.value}');
+    print('Lastname: ${_lastnameController.value}');
+    print('Email: ${_emailController.value}');
+    print('Phone: ${_phoneController.value}');
+    print('Password: ${_passwordController.value}');
+    print('ConfirmPassword: ${_confirmpasswordController.value}');
+  }
+
   void changeName(String name) {
-    if (name.length < 6 ) { 
+    if (name.isNotEmpty && name.length < 6) {
       _nameController.sink.addError('debe tener mas de 6 caracteres');
-    }else{
+    } else {
       _nameController.sink.add(name);
     }
   }
 
-    void changeLastname(String lastname) {
-    if (lastname.length < 6 ) { 
+  void changeLastname(String lastname) {
+    if (lastname.isNotEmpty && lastname.length < 6) {
       _lastnameController.sink.addError('debe tener mas de 6 caracteres');
-    }else{
+    } else {
       _lastnameController.sink.add(lastname);
     }
   }
 
-
-void changeEmail(String email) {
-    bool emailFormatValid = 
-    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-      .hasMatch(email);
-    if (email.isNotEmpty && email.length < 5) {
+  void changeEmail(String email) {
+    bool emailFormatValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+    if (email.isNotEmpty && email.isNotEmpty && email.length < 5) {
       _emailController.sink.addError('Al menos 5 caracteres');
-    }
-    else if(email.isNotEmpty && !emailFormatValid) {
+    } else if (email.isNotEmpty && !emailFormatValid) {
       _emailController.sink.addError('El email no es valido');
-    }
-    else {
+    } else {
       _emailController.sink.add(email);
     }
   }
 
   void changePhone(String phone) {
-    if (phone.length < 10 ) { 
+    if (phone.isNotEmpty && phone.length < 10) {
       _phoneController.sink.addError('NO es un numero correcto');
-    }else{
+    } else {
       _phoneController.sink.add(phone);
     }
   }
 
   void changePassword(String password) {
-    if (password.length < 8 ) { 
+    if (password.isNotEmpty && password.length < 8) {
       _passwordController.sink.addError('debe tener minimo de 8 caracteres');
-    }else{
+    } else {
       _passwordController.sink.add(password);
     }
   }
 
-    void changeConfirmpassword(String confirmpassword) {
-    if (confirmpassword.length < 8 ) { 
-      _confirmpasswordController.sink.addError('debe tener minimo de 8 caracteres');
-    }
-    else if  (confirmpassword != _passwordController.value){
+  void changeConfirmpassword(String confirmpassword) {
+    if (confirmpassword.isNotEmpty && confirmpassword.length < 8) {
+      _confirmpasswordController.sink
+          .addError('debe tener minimo de 8 caracteres');
+    } else if (confirmpassword != _passwordController.value) {
       _confirmpasswordController.sink.addError('no coinciden las contraseñas');
-    }
-    else{
-
-
+    } else {
       _confirmpasswordController.sink.add(confirmpassword);
     }
-
-    
   }
+
   void dispose() {
     changeName('');
     changeLastname('');
@@ -110,13 +101,4 @@ void changeEmail(String email) {
     changePassword('');
     changeConfirmpassword('');
   }
-
-
-
-
-
-
-  }
-
-
-
+}

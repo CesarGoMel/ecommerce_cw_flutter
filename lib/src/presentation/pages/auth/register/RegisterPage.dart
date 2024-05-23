@@ -2,10 +2,11 @@ import 'package:ecommerce_cw_flutter/src/presentation/pages/auth/register/Regist
 import 'package:ecommerce_cw_flutter/src/presentation/witgets/DefaultButton.dart';
 import 'package:ecommerce_cw_flutter/src/presentation/witgets/DefaultIconBack.dart';
 import 'package:ecommerce_cw_flutter/src/presentation/witgets/DefaultTextField.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:rxdart/rxdart.dart';
+//import 'package:rxdart/rxdart.dart';
 
 class Registerpage extends StatefulWidget {
   const Registerpage({super.key});
@@ -15,6 +16,7 @@ class Registerpage extends StatefulWidget {
 }
 
 class _RegisterpageState extends State<Registerpage> {
+  
   RegisterBlocCubit? _registerBlocCubit;
 
   @override
@@ -77,6 +79,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                                 label: 'Nombres',
+                                errorText: snapshot.error?.toString(),
                                 icon: Icons.person,
                                 onChanged: (text) {
                                   _registerBlocCubit?.changeName(text);
@@ -90,6 +93,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                                 label: 'Apellidos',
+                                errorText: snapshot.error?.toString(),
                                 icon: Icons.person,
                                 onChanged: (text) {
                                   _registerBlocCubit?.changeLastname(text);
@@ -103,6 +107,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                                 label: 'Email',
+                                errorText: snapshot.error?.toString(),
                                 icon: Icons.mail,
                                 onChanged: (text) {
                                   _registerBlocCubit?.changeEmail(text);
@@ -116,6 +121,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                                 label: 'Teléfono',
+                                errorText: snapshot.error?.toString(),
                                 icon: Icons.phone,
                                 onChanged: (text) {
                                   _registerBlocCubit?.changePhone(text);
@@ -129,6 +135,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                               label: 'Contraseña',
+                              errorText: snapshot.error?.toString(),
                               icon: Icons.lock,
                               onChanged: (text) {
                                 _registerBlocCubit?.changePassword(text);
@@ -144,6 +151,7 @@ class _RegisterpageState extends State<Registerpage> {
                           builder: (context, snapshot) {
                             return DefaultTextField(
                               label: 'Confirmar Contraseña',
+                              errorText: snapshot.error?.toString(),
                               icon: Icons.lock_outline,
                               onChanged: (text) {
                                 _registerBlocCubit?.changeConfirmpassword(text);

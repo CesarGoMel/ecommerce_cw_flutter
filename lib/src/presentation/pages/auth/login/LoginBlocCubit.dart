@@ -2,8 +2,7 @@ import 'package:ecommerce_cw_flutter/src/presentation/pages/auth/login/LoginBLoc
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
-class LoginBlocCubit extends Cubit <LoginBlocState> {
-
+class LoginBlocCubit extends Cubit<LoginBlocState> {
   LoginBlocCubit() : super(LoginInitial());
 
   final _emailController = BehaviorSubject<String>();
@@ -12,35 +11,37 @@ class LoginBlocCubit extends Cubit <LoginBlocState> {
   Stream<String> get emailStream => _emailController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
 
-  void changeEmail(String email) {
-    if(email.length < 6) {
-      _emailController.sink.addError('La longitud debe ser mayor a 6 caracteres');
-    }
-    else{
-    _emailController.sink.add(email);
-  }
-  }
-
-  void changepassword(String password) {
-    if (password.length < 6){
-      _passwordController.sink.addError('debe tener m{as de 6 caracteres}');
-    }
-    else 
-    {    _passwordController.sink.add(password);
-    }
-  }
-
-  Stream<bool> get validateForm => Rx.combineLatest2(
-    emailStream, passwordStream, (a, b)=> true
-     );
-
-     void dispose() {
-      changeEmail('');
-      changepassword('');
-     }
+  Stream<bool> get validateForm =>
+      Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
 
   void login() {
     print('Email: ${_emailController.value}');
     print('Password: ${_passwordController.value}');
+  }
+
+  void changeEmail(String email) {
+    bool emailFormatValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
+    if (email.isNotEmpty && email.length < 5) {
+      _emailController.sink.addError('Al menos 5 caracteres');
+    } else if (email.isNotEmpty && !emailFormatValid) {
+      _emailController.sink.addError('El email no es valido');
+    } else {
+      _emailController.sink.add(email);
+    }
+  }
+
+  void changePassword(String password) {
+    if (password.isNotEmpty && password.length < 6) {
+      _passwordController.sink.addError('debe tener más de 6 caracteres');
+    } else {
+      _passwordController.sink.add(password);
+    }
+  }
+
+  void dispose() {
+    changeEmail('');
+    changePassword('');
   }
 }

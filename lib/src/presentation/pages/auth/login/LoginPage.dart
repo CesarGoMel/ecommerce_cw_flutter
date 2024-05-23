@@ -75,14 +75,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 25, right: 25),
-                    
+                    margin: EdgeInsets.only(left: 25, right: 25),                    
                     child: StreamBuilder(
                       stream: _loginBlocCubit?.emailStream,
                       builder: (context, snapshot) {
                         return DefaultTextField(
                           label: 'Email',
                           icon: Icons.email,
+                          errorText: snapshot.error?.toString(),
                           onChanged: (text){
                             _loginBlocCubit?.changeEmail(text);
                           },
@@ -98,8 +98,9 @@ class _LoginPageState extends State<LoginPage> {
                          return DefaultTextField(
                           label: 'Constraseña',
                           icon: Icons.lock,
+                          errorText: snapshot.error?.toString(),
                           onChanged: (text){
-                            _loginBlocCubit?.changepassword(text);
+                            _loginBlocCubit?.changePassword(text);
                             
                           },
                           obscureText: true,
