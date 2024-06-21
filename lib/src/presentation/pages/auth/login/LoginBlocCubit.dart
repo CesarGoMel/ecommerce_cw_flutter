@@ -1,9 +1,13 @@
+import 'package:ecommerce_cw_flutter/src/data/dataSource/remote/services/AuthService.dart';
+import 'package:ecommerce_cw_flutter/src/domain/models/AuthResponse.dart';
 import 'package:ecommerce_cw_flutter/src/presentation/pages/auth/login/LoginBLocState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBlocCubit extends Cubit<LoginBlocState> {
   LoginBlocCubit() : super(LoginInitial());
+
+  Authservice authservice = Authservice();
 
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
@@ -14,9 +18,11 @@ class LoginBlocCubit extends Cubit<LoginBlocState> {
   Stream<bool> get validateForm =>
       Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
 
-  void login() {
+  void login()  async {
     print('Email: ${_emailController.value}');
     print('Password: ${_passwordController.value}');
+    AuthResponse response = await authservice.login(_emailController.value, _passwordController.value);
+    print('Response: $response');
   }
 
   void changeEmail(String email) {
