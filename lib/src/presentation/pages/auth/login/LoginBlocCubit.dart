@@ -15,14 +15,16 @@ class LoginBlocCubit extends Cubit<LoginBlocState> {
   Stream<String> get emailStream => _emailController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
 
-  Stream<bool> get validateForm =>
-      Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
+  Stream<bool> get validateForm => Rx.combineLatest2(
+    emailStream, passwordStream, (a, b) => true
+    );
+  
 
   void login()  async {
     print('Email: ${_emailController.value}');
     print('Password: ${_passwordController.value}');
     AuthResponse response = await authservice.login(_emailController.value, _passwordController.value);
-    print('Response: $response');
+    print('Response: ${response.toJson()}');
   }
 
   void changeEmail(String email) {
@@ -46,7 +48,7 @@ class LoginBlocCubit extends Cubit<LoginBlocState> {
     }
   }
 
-  void dispose() {
+  void dispose() { //cuando pasamos a otra pantalla
     changeEmail('');
     changePassword('');
   }
