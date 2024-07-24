@@ -1,3 +1,4 @@
+import 'package:ecommerce_cw_flutter/src/domain/utils/Resource.dart';
 import 'package:ecommerce_cw_flutter/src/presentation/pages/auth/login/LoginBlocCubit.dart';
 import 'package:ecommerce_cw_flutter/src/presentation/witgets/DefaultTextField.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,29 @@ class _LoginPageState extends State<LoginPage> {
         child:  Stack(
           alignment: Alignment.center,
           children: [
-            Image.asset(
+
+            StreamBuilder(
+              stream: _loginBlocCubit?.responseStream, 
+              builder: (context, snapshot) {
+                final state = snapshot.data;
+                if (state is Error) {
+                  Fluttertoast.showToast(
+                    msg: state.message,
+                    toastLength: Toast.LENGTH_LONG
+                  );
+                }
+                else if (state is Success) {
+                  Fluttertoast.showToast(
+                    msg: 'Login exitoso',
+                    toastLength: Toast.LENGTH_LONG
+                  );
+                }
+                return Container();
+              }
+            
+            ),
+
+           Image.asset(
               'assets/img/fondo.jpg',
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
